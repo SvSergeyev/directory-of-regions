@@ -15,6 +15,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @RequestMapping("/regions")
 public class RegionController {
+    //TODO: get all, get by id, create, update, delete by id, ?delete all?
+    //
     private final RegionMapper regionMapper;
 
     public RegionController(RegionMapper regionMapper) {
@@ -23,8 +25,11 @@ public class RegionController {
 
     @GetMapping
     public ResponseEntity<List<Region>> getAllRegions() {
-        Optional<List<Region>> regions = regionMapper.getAll();
-        return ResponseEntity.ok(regions.orElse(new ArrayList<>()));
+        List<Region> regions = regionMapper.getAll();
+        if (regions.isEmpty()) {
+            return ResponseEntity.ok(new ArrayList<>());
+        }
+        return ResponseEntity.ok(regions);
     }
 
     @GetMapping("/{id}")
@@ -44,6 +49,16 @@ public class RegionController {
         return new ResponseEntity<>("Region successfully created", HttpStatus.CREATED);
     }
 
-
+    @PatchMapping(value = "/{id}", consumes = APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updateRegion(@PathVariable int id, Region region) {
+        if (!regionMapper.existsById(id)) {
+            return new ResponseEntity<>("Region was not found", HttpStatus.NOT_FOUND);
+        }
+        int updateRegion = regionMapper.update(region);
+        if (updateRegion == 1) {
+            return new ResponseEntity<>("Region was successfully updated", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Unable to update region", HttpStatus.BAD_REQUEST);
+    }
 
 }

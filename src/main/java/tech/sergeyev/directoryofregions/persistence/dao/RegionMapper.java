@@ -16,8 +16,14 @@ public interface RegionMapper {
     Optional<Region> getById(int id);
 
     @Select("select id, name, abbreviation from regions")
-    Optional<List<Region>> getAll();
+    List<Region> getAll();
 
     @Select("select exists(select 1 from regions where id = #{id})")
     Boolean existsById(int id);
+
+    @Update("update regions set " +
+            "name = #{region.getName()}," +
+            "abbreviation = #{region.getAbbreviation()}" +
+            "where id = #{region.getId()}")
+    Integer update(Region region);
 }
