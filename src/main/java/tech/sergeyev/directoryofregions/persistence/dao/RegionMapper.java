@@ -1,7 +1,6 @@
 package tech.sergeyev.directoryofregions.persistence.dao;
 
 import org.apache.ibatis.annotations.*;
-import org.springframework.cache.annotation.Cacheable;
 import tech.sergeyev.directoryofregions.persistence.model.Region;
 
 import java.util.List;
