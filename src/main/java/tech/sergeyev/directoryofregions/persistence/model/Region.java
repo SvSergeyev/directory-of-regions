@@ -14,6 +14,7 @@ import javax.persistence.Id;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Region {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

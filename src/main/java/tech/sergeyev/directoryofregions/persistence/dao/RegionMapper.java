@@ -1,6 +1,7 @@
 package tech.sergeyev.directoryofregions.persistence.dao;
 
 import org.apache.ibatis.annotations.*;
+import org.springframework.cache.annotation.Cacheable;
 import tech.sergeyev.directoryofregions.persistence.model.Region;
 
 import java.util.List;
@@ -21,9 +22,15 @@ public interface RegionMapper {
     @Select("select exists(select 1 from regions where id = #{id})")
     Boolean existsById(int id);
 
+    @Select("select exists(select 1 from regions where name = #{name})")
+    Boolean existsByName(String name);
+
     @Update("update regions set " +
-            "name = #{region.getName()}," +
-            "abbreviation = #{region.getAbbreviation()}" +
-            "where id = #{region.getId()}")
-    Integer update(Region region);
+            "name = #{region.name}," +
+            "abbreviation = #{region.abbreviation}" +
+            "where id = #{region.id}")
+    void update(@Param("region") Region region);
+
+    @Delete("delete from regions where id = #{id}")
+    void deleteById(int id);
 }

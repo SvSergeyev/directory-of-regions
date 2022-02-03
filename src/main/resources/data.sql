@@ -1,4 +1,4 @@
-INSERT INTO regions
-VALUES (1,
+insert into regions
+values (1,
         'Omsk',
         '55');
